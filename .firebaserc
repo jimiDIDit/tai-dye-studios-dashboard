@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "tai-dye-studios": {
+      "hosting": {
+        "tai-dye-studios-backend": [
+          "dashboard-tai-dye-studios"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "tai-dye-studios"
+  }
+}
