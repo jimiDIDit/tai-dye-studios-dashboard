@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { CKEditorComponent } from 'ngx-ckeditor';
 @Component({
   selector: 'app-add-product',
   templateUrl: './add-product.component.html',

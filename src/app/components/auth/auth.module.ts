@@ -14,11 +14,11 @@ import { SharedModule } from '../../shared/shared.module';
   declarations: [LoginComponent],
   imports: [
     CommonModule,
-    AuthRoutingModule,
     ReactiveFormsModule,
     NgbModule,
     CarouselModule,
-    SharedModule
+    SharedModule,
+    AuthRoutingModule,
   ]
 })
 export class AuthModule { }

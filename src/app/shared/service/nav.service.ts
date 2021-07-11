@@ -1,5 +1,7 @@
 import { Injectable, HostListener, Inject } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable, Subscriber } from 'rxjs';
+import { ProfileService } from 'src/app/core/services/profile/profile.service';
 import { WINDOW } from "./windows.service";
 // Menu
 export interface Menu {
@@ -23,18 +25,20 @@ export class NavService {
 	public screenWidth: any
 	public collapseSidebar: boolean = false
 
-	constructor(@Inject(WINDOW) private window) {
+
+	constructor(@Inject(WINDOW) private window, public profileService: ProfileService) {
 		this.onResize();
 		if (this.screenWidth < 991) {
 			this.collapseSidebar = true
-		}
+    }
 	}
 
 	// Windows width
 	@HostListener("window:resize", ['$event'])
-	onResize(event?) {
+  onResize(event?) {
+    // console.log(event)
 		this.screenWidth = window.innerWidth;
-	}
+  }
 
 	MENUITEMS: Menu[] = [
 		{
@@ -51,14 +55,14 @@ export class NavService {
 						{ path: '/products/physical/add-product', title: 'Add Product', type: 'link' },
 					]
 				},
-				{
-					title: 'digital', type: 'sub', children: [
-						{ path: '/products/digital/digital-category', title: 'Category', type: 'link' },
-						{ path: '/products/digital/digital-sub-category', title: 'Sub Category', type: 'link' },
-						{ path: '/products/digital/digital-product-list', title: 'Product List', type: 'link' },
-						{ path: '/products/digital/digital-add-product', title: 'Add Product', type: 'link' },
-					]
-				},
+				// {
+				// 	title: 'digital', type: 'sub', children: [
+				// 		{ path: '/products/digital/digital-category', title: 'Category', type: 'link' },
+				// 		{ path: '/products/digital/digital-sub-category', title: 'Sub Category', type: 'link' },
+				// 		{ path: '/products/digital/digital-product-list', title: 'Product List', type: 'link' },
+				// 		{ path: '/products/digital/digital-add-product', title: 'Add Product', type: 'link' },
+				// 	]
+				// },
 			]
 		},
 		{
@@ -118,9 +122,9 @@ export class NavService {
 		{
 			title: 'Invoice', path: '/invoice', icon: 'archive', type: 'link', active: false
 		},
-		{
-			title: 'Login',path: '/auth/login', icon: 'log-in', type: 'link', active: false
-		}
+		// {
+		// 	title: 'Login',path: '/auth/login', icon: 'log-in', type: 'link', active: false
+		// }
 	]
 	// Array
 	items = new BehaviorSubject<Menu[]>(this.MENUITEMS);

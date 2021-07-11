@@ -140,15 +140,15 @@
                                     <ng-template ngbTabContent>
                                         <div class="tab-pane fade active show" id="account" role="tabpanel"
                                             aria-labelledby="account-tab">
-                                            <form [formGroup]="loginForm" 
+                                            <form [formGroup]="loginForm"
                                                 class="form-horizontal auth-form" novalidate="">
                                                 <div class="form-group">
-                                                    <input required="" name="login[username]" type="email"
+                                                    <input required="" name="login[username]" type="email" [formControl]="loginForm.controls['userName']"
                                                         class="form-control" placeholder="Username"
                                                         id="exampleInputEmail1">
                                                 </div>
                                                 <div class="form-group">
-                                                    <input required="" name="login[password]" type="password"
+                                                    <input required="" name="login[password]" type="password" [formControl]="loginForm.controls['password']"
                                                         class="form-control" placeholder="Password">
                                                 </div>
                                                 <div class="form-terms">
@@ -163,66 +163,21 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-button">
-                                                    <button class="btn btn-primary" type="submit">Login</button>
+                                                    <button class="btn btn-primary" type="button" (click)="login(loginForm.controls.userName.value, loginForm.controls.password.value)">Login</button>
                                                 </div>
                                                 <div class="form-footer">
                                                     <span>Or Login up with social platforms</span>
                                                     <ul class="social">
-                                                        <li><a class="icon-facebook" href="javascript:void(0)"></a></li>
-                                                        <li><a class="icon-twitter" href="javascript:void(0)"></a></li>
+                                                        <li><a class="icon-google" href="javascript:void(0)"></a></li>
+                                                        <!-- <li><a class="icon-twitter" href="javascript:void(0)"></a></li>
                                                         <li><a class="icon-instagram" href="javascript:void(0)"></a>
                                                         </li>
                                                         <li><a class="icon-pinterest" href="javascript:void(0)"></a>
-                                                        </li>
+                                                        </li> -->
                                                     </ul>
                                                 </div>
                                             </form>
                                         </div>
-                                    </ng-template>
-                                </ngb-tab>
-                                <ngb-tab>
-                                    <ng-template ngbTabTitle><i class="icon-unlock mr-2"></i> Register
-                                        <ng-template ngbTabContent>
-                                            <form [formGroup]="registerForm" 
-                                                class="form-horizontal auth-form" novalidate>
-                                                <div class="form-group">
-                                                    <input required="" name="login[username]" type="email"
-                                                        class="form-control" placeholder="Username"
-                                                        id="exampleInputEmail12">
-                                                </div>
-                                                <div class="form-group">
-                                                    <input required="" name="login[password]" type="password"
-                                                        class="form-control" placeholder="Password">
-                                                </div>
-                                                <div class="form-terms">
-                                                    <div class="custom-control custom-checkbox mr-sm-2">
-                                                        <input type="checkbox" class="custom-control-input"
-                                                            id="customControlAutosizing1">
-                                                        <label class="custom-control-label"
-                                                            for="customControlAutosizing1"><span>I agree all statements
-                                                                in <a href="javascript:void(0)" class="pull-right">Terms
-                                                                    &amp;
-                                                                    Conditions</a></span></label>
-                                                    </div>
-                                                </div>
-                                                <div class="form-button">
-                                                    <button class="btn btn-primary" type="submit">Register</button>
-                                                </div>
-                                                <div class="form-footer">
-                                                    <span>Or Sign up with social platforms</span>
-                                                    <ul class="social">
-                                                        <li><a href="javascript:void(0)"><i
-                                                                    class="icon-facebook"></i></a></li>
-                                                        <li><a href="javascript:void(0)"><i
-                                                                    class="icon-twitter"></i></a></li>
-                                                        <li><a href="javascript:void(0)"><i
-                                                                    class="icon-instagram"></i></a></li>
-                                                        <li><a href="javascript:void(0)"><i
-                                                                    class="icon-pinterest"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                            </form>
-                                        </ng-template>
                                     </ng-template>
                                 </ngb-tab>
                             </ngb-tabset>
@@ -230,10 +185,6 @@
                     </div>
                 </div>
             </div>
-            <a [routerLink]="'/dashboard/default'" class="btn btn-primary back-btn">
-                <app-feather-icons [icon]="'arrow-left'"></app-feather-icons>
-                back
-            </a>
         </div>
     </div>
 </div>

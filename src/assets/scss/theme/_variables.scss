@@ -63,7 +63,7 @@ $gradient1: #01effc;
 $gradient2: #485ff2;
 $left-sidebar: #2b2b2b;
 
-// dark layput variable //
+// dark layout variable //
 $dark-body:#2b2b2b;
 $dark-top:#232323;
 $dark-border:#404040;
@@ -82,11 +82,11 @@ $white-5:#cfd4da;
 // Theme colors variables
 $primary-color: #3dc8b7;
 //$primary-color: #544efa ;
-$secondary-color: #3578e5;
+$secondary-color: #a5a5a5;
 $success-color: #81ba00;
 $info-color : #00a8ff;
 $warning-color: #ffbc58;
-$danger-color: #a5a5a5;
+$danger-color: #f45a5a;
 $light-color : #f8f8f9;
 $semi-dark :#aaaaaa;
 $light-semi-gray :#eff0f1;
@@ -98,7 +98,8 @@ $transparent-color: transparent;
 $auth-bg-color:#fafafa;
 $light : #f6f6f6;
 $light-text: #999;
-
+$dark: #232937;
+$dark-text: $light;
 
 // Tables settings
 $horizontal-border-color: #dee2e6;
@@ -127,7 +128,11 @@ $theme-font-color: #1b252a;
 $theme-body-font-color: #313131;
 $theme-body-sub-title-color: #777777;
 
-//sidabr main settings
+// Dark general vaiables
+$dark-theme-font-color: $light;
+$dark-theme-body-font-color: $light-gray;
+$dark-theme-subtitle-color: $light-text;
+$sidebar-dark-background-color: $dark; //sidabr main settings
 $sidebar-width: 255px;
 $sidebar-position: fixed;
 $sidebar-background-color: $white;

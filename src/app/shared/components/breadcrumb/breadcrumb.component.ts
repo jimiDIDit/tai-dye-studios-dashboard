@@ -12,16 +12,20 @@ import { map } from 'rxjs/internal/operators';
 export class BreadcrumbComponent implements OnInit {
 
   public breadcrumbs;
-  public title: string
+  public title: string;
+  public user;
 
   constructor(private activatedRoute: ActivatedRoute,
     private router: Router) {
+    activatedRoute.queryParams.subscribe(params => this.user = params.id)
+
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .pipe(map(() => this.activatedRoute))
       .pipe(map((route) => {
         while (route.firstChild) {
           route = route.firstChild;
+          this.user = route.snapshot.queryParams.user;
         }
         return route;
       }))

@@ -6,5 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'tai-dye-studios-backend';
+  title = 'Tai Dye Studios Dashboard';
+  constructor() {
+    // const appCheck = firebase.appCheck();
+    // appCheck.activate('6LduqYMbAAAAAPbwAbzwMEKWXjpA2Z96nKNcvc5H');
+
+  }
 }

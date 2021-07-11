@@ -1,6 +1,9 @@
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component, HostListener, Inject, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
+import { isTemplateSpan } from 'typescript';
 import { NavService, Menu } from '../../service/nav.service';
+import { WINDOW } from '../../service/windows.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -8,13 +11,14 @@ import { NavService, Menu } from '../../service/nav.service';
   styleUrls: ['./sidebar.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class SidebarComponent {
-
+export class SidebarComponent implements OnInit {
+  public logoUrl = 'assets/images/dashboard/logo.png';
   public menuItems: Menu[];
   public url: any;
   public fileurl: any;
+  @Input() admin: any;
 
-  constructor(private router: Router, public navServices: NavService) {
+  constructor(@Inject(WINDOW) private window, private router: Router, public navServices: NavService) {
     this.navServices.items.subscribe(menuItems => {
       this.menuItems = menuItems
       this.router.events.subscribe((event) => {
@@ -32,6 +36,7 @@ export class SidebarComponent {
                   this.setNavActive(subSubItems)
               })
             })
+
           })
         }
       })
@@ -88,6 +93,9 @@ export class SidebarComponent {
     reader.onload = (_event) => {
       this.url = reader.result;
     }
+  }
+
+  ngOnInit() {
   }
 
 }

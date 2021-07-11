@@ -1,11 +1,11 @@
 <div>
     <div class="page-wrapper">
-        <app-header (rightSidebarEvent)="rightSidebar($event)"></app-header>
+        <app-header [admin]="adminData" (rightSidebarEvent)="rightSidebar($event)"></app-header>
         <div class="page-body-wrapper">
             <div class="page-sidebar" [class.open]="navServices.collapseSidebar">
-                <app-sidebar></app-sidebar>
+                <app-sidebar [admin]="adminData"></app-sidebar>
                 <div class="right-sidebar" [class.show]="right_side_bar" id="right_side_bar">
-                    <app-right-sidebar></app-right-sidebar>
+                    <app-right-sidebar (settingsToggleEvent)="toggleSettings($event)" [groupMembers]="messagesInstance.group | async" [admin]="adminData" ></app-right-sidebar>
                 </div>
             </div>
             <div class="page-body">

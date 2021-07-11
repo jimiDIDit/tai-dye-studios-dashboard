@@ -1,9 +1,6 @@
 <div class="page-main-header" [class.open]="open">
     <div class="main-header-right row">
-        <div class="main-header-left d-lg-none">
-            <div class="logo-wrapper"><a [routerLink]="'/dashboard/default'"><img class="blur-up lazyloaded"
-                        src="assets/images/dashboard/logo.png" alt=""></a></div>
-        </div>
+
         <div class="mobile-sidebar">
             <div class="media-body text-right switch-sm">
                 <label class="switch">
@@ -13,6 +10,10 @@
                     </a>
                 </label>
             </div>
+        </div>
+        <div class="main-header-left d-lg-none">
+          <div class="logo-wrapper"><a [routerLink]="admin.firstname + '/dashboard/default'"><img class="blur-up lazyloaded"
+                [src]="logoUrl" alt=""></a></div>
         </div>
         <div class="nav-right col">
             <ul class="nav-menus" [ngClass]="{'open' : openNav}">
@@ -97,13 +98,13 @@
                 <li class="onhover-dropdown">
                     <div class="media align-items-center"><img
                             class="align-self-center pull-right img-50 rounded-circle"
-                            src="assets/images/dashboard/man.png" alt="header-user">
+                            [src]="admin?.photoUrl" alt="header-user">
 
                         <div class="dotted-animation"><span class="animate-circle"></span><span
                                 class="main-circle"></span></div>
                     </div>
                     <ul class="profile-dropdown onhover-show-div p-20 profile-dropdown-hover">
-                        <li><a [routerLink]="'/settings/profile'">
+                        <li><a [routerLink]="admin.firstname + '/settings/profile'">
                                 <app-feather-icons [icon]="'user'"></app-feather-icons>Edit Profile
                             </a></li>
                         <li><a href="javascript:void(0)">
@@ -115,7 +116,7 @@
                         <li><a href="javascript:void(0)">
                                 <app-feather-icons [icon]="'settings'"></app-feather-icons>Settings
                             </a></li>
-                        <li><a [routerLink]="'/auth/login'">
+                        <li><a href="javascript:void(0)" (click)="logout()">
                                 <app-feather-icons [icon]="'log-out'"></app-feather-icons>Logout
                             </a></li>
                     </ul>

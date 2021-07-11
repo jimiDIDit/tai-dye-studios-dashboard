@@ -23,6 +23,7 @@ import 'mousetrap';
 import { DropzoneModule } from 'ngx-dropzone-wrapper';
 import { DROPZONE_CONFIG } from 'ngx-dropzone-wrapper';
 import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
+import { ProductsService } from './products.service';
 
 const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
   maxFilesize: 50,
@@ -45,6 +46,7 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     GalleryModule.forRoot()
   ],
   providers: [
+    ProductsService,
     {
       provide: DROPZONE_CONFIG,
       useValue: DEFAULT_DROPZONE_CONFIG

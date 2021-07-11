@@ -2275,6 +2275,7 @@ $header-size: 80px;
             text-transform: capitalize;
             color: $theme-body-sub-title-color;
           }
+
         }
       }
       .breadcrumb{
@@ -4968,8 +4969,8 @@ $i:1;
       .main-header-left {
         .logo-wrapper {
           img {
-            height: 23px;
-            margin-top: 0;
+            height: 40px;
+            margin-top: 8px;
             margin-right: 15px;
           }
         }

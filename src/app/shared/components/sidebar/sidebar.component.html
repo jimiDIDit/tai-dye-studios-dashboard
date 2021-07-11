@@ -1,13 +1,13 @@
 <div class="main-header-left d-none d-lg-block">
-  <div class="logo-wrapper"><a [routerLink]="'/dashboard/default'"><img class="blur-up lazyloaded"
-        src="assets/images/dashboard/logo.png" style="max-height: 70px;" alt=""></a></div>
+  <div class="logo-wrapper"><a [routerLink]="'/' + admin.firstname + '/dashboard/default'"><img class="blur-up lazyloaded"
+        [src]="logoUrl" style="max-width: 160px;" alt=""></a></div>
 </div>
 <div class="sidebar custom-scrollbar">
   <div class="sidebar-user text-center">
-    <div><img class="img-60 rounded-circle" src="assets/images/dashboard/man.png" alt="#">
+    <div><img class="img-60 rounded-circle" [src]="admin?.photoUrl" alt="Profile Photot">
     </div>
-    <h6 class="mt-3 f-14">Tai</h6>
-    <p>Owner / Lead Designer</p>
+    <h6 class="mt-3 f-14">{{admin?.displayName}}</h6>
+    <p>{{admin?.role}} | {{admin.position}}</p>
   </div>
   <ul class="sidebar-menu">
     <li *ngFor="let menuItem of menuItems" [ngClass]="{active: menuItem.active}">
@@ -20,7 +20,7 @@
         <i class="fa fa-angle-right pull-right" *ngIf="menuItem.children"></i>
       </a>
       <!-- Link -->
-      <a [routerLink]="!menuItem.type ? null : [menuItem.path]" routerLinkActive="active" class="sidebar-header"
+      <a [routerLink]="!menuItem.type ? null : [admin.firstname + menuItem.path]" routerLinkActive="active" class="sidebar-header"
         *ngIf="menuItem.type === 'link'">
         <app-feather-icons [icon]="menuItem.icon"></app-feather-icons><span>{{menuItem.title}}<span
             class="badge badge-{{menuItem.badgeType}} ml-3"
@@ -54,7 +54,7 @@
             <i class="fa fa-angle-down pull-right" *ngIf="childrenItem.children"></i>
           </a>
           <!-- Link -->
-          <a [routerLink]="!childrenItem.type ? null : [childrenItem.path]" *ngIf="childrenItem.type === 'link'"
+          <a [routerLink]="!childrenItem.type ? null : [admin.firstname + childrenItem.path]" *ngIf="childrenItem.type === 'link'"
             routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
             <i class="fa fa-circle"></i><span>{{childrenItem.title}} <span
                 class="badge badge-{{childrenItem.badgeType}} pull-right"
@@ -62,7 +62,7 @@
             <i class="fa fa-angle-down pull-right" *ngIf="childrenItem.children"></i>
           </a>
           <!-- External Link -->
-          <a href="{{ !childrenItem.type ? null : childrenItem.path }}" *ngIf="childrenItem.type === 'extLink'"
+          <a href="{{ !childrenItem.type ? null :  childrenItem.path }}" *ngIf="childrenItem.type === 'extLink'"
             routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
             <i class="fa fa-circle"></i><span>{{childrenItem.title}} <span
                 class="badge badge-{{childrenItem.badgeType}} pull-right"
@@ -81,7 +81,7 @@
           <ul class="sidebar-submenu" *ngIf="childrenItem.children">
             <li *ngFor="let childrenSubItem of childrenItem.children">
               <!-- Link -->
-              <a [routerLink]="!childrenSubItem.type ? null : [childrenSubItem.path]"
+              <a [routerLink]="!childrenSubItem.type ? null : [admin.firstname + childrenSubItem.path]"
                 *ngIf="childrenSubItem.type === 'link'" routerLinkActive="active"
                 [routerLinkActiveOptions]="{exact: true}">
                 <i class="fa fa-circle"></i><span> {{childrenSubItem.title}} <span

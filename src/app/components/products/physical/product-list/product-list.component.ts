@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DataService } from 'src/app/core/services/data/data.service';
 import { productDB } from 'src/app/shared/tables/product-list';
 
 @Component({
@@ -8,10 +9,12 @@ import { productDB } from 'src/app/shared/tables/product-list';
 })
 export class ProductListComponent implements OnInit {
 
-  public product_list = []
+  public product_list: any;
 
-  constructor() {
-    this.product_list = productDB.product;
+  constructor(private dataService: DataService) {
+    dataService.products.valueChanges().subscribe(products => {
+      this.product_list = products;
+    })
   }
 
   ngOnInit() {}

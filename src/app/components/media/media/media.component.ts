@@ -29,7 +29,7 @@ export class MediaComponent implements OnInit {
     },
   };
   constructor(private storage: AngularFireStorage) {
-    this.media = mediaDB.data;
+    // this.media = mediaDB.data;
   }
   // uploadFileToStorage(files: any) {
   //   let downloads: string[] = [];

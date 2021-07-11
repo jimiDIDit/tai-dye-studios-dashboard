@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { GroupMember } from 'src/app/core/services/message/message.interface';
 
 @Component({
   selector: 'app-right-sidebar',
@@ -6,47 +7,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./right-sidebar.component.scss']
 })
 export class RightSidebarComponent implements OnInit {
-
+  @Input() admin: any;
+  @Input() groupMembers: GroupMember[] = [];
+  @Output() settingsToggleEvent = new EventEmitter<boolean>();
+  public settingsOpen = false;
   constructor() { }
-
-  public users = [
-    {
-      img: "assets/images/dashboard/user.png",
-      name: "Vincent Porter",
-      status: "Online"
-    },
-    {
-      img: "assets/images/dashboard/user1.jpg",
-      name: "Ain Chavez",
-      status: "28 minutes ago"
-    },
-    {
-      img: "assets/images/dashboard/user2.jpg",
-      name: "Kori Thomas",
-      status: "Online"
-    },
-    {
-      img: "assets/images/dashboard/user3.jpg",
-      name: "Erica Hughes",
-      status: "Online"
-    },
-    {
-      img: "assets/images/dashboard/man.png",
-      name: "Ginger Johnston",
-      status: "2 minutes ago"
-    },
-    {
-      img: "assets/images/dashboard/user5.jpg",
-      name: "Prasanth Anand",
-      status: "2 hour ago"
-    },
-    {
-      img: "assets/images/dashboard/designer.jpg",
-      name: "Hileri Jecno",
-      status: "Online"
-    }
-  ]
-
+  public toggleSettings() {
+    this.settingsOpen = !this.settingsOpen;
+    this.settingsToggleEvent.emit(this.settingsOpen);
+}
   ngOnInit() { }
 
 }
