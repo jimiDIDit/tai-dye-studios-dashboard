@@ -14,6 +14,13 @@ import { NavService } from './service/nav.service';
 import { WINDOW_PROVIDERS } from './service/windows.service';
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 import { RightSidebarComponent } from './components/right-sidebar/right-sidebar.component';
+import { SafeHtmlPipe } from './pipes/safe-html.pipe';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ColorPickerComponent } from './components/color-picker/color-picker.component';
+import { ImageUploadComponent } from './components/image-upload/image-upload.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { WarningComponent } from './components/modal/warning/warning.component';
+import { ToastsComponent } from './components/toasts/toasts.component';
 
 @NgModule({
   declarations: [
@@ -22,15 +29,23 @@ import { RightSidebarComponent } from './components/right-sidebar/right-sidebar.
     FooterComponent,
     HeaderComponent,
     SidebarComponent,
-    ContentLayoutComponent,
     BreadcrumbComponent,
-    RightSidebarComponent
+    RightSidebarComponent,
+    SafeHtmlPipe,
+    ContentLayoutComponent,
+    ColorPickerComponent,
+    ImageUploadComponent,
+    WarningComponent,
+    ToastsComponent,
   ],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgbModule,
   ],
   providers: [NavService, WINDOW_PROVIDERS],
-  exports: [FeatherIconsComponent, ToggleFullscreenDirective]
+  exports: [FeatherIconsComponent, ToggleFullscreenDirective, SafeHtmlPipe, ContentLayoutComponent, NgbModule, ColorPickerComponent, ImageUploadComponent, WarningComponent, ToastsComponent]
 })
 export class SharedModule { }

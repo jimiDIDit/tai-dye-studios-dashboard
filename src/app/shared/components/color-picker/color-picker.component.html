@@ -1,0 +1,12 @@
+<div class="col">
+  <ng-template #rt let-r="result" let-t="term">
+    <ngb-highlight [result]="r" [term]="t" style="color: #888888ed">{{r}}</ngb-highlight> <span class="circle" style="width: 30px;height:30px;padding: 0 15px;margin-left: 5px;" [style.background-color]="r"></span>
+    <!-- <ngb-highlight [result]="r" [term]="t"></ngb-highlight> -->
+  </ng-template>
+
+  <label for="typeahead-template">Select Color</label>
+  <input name="color-picker" [formControl]="fGroup.controls['color']" id="colorPickerInput" type="text" class="form-control" [placeholder]="model" [ngbTypeahead]="search"
+    [resultTemplate]="rt" (selectItem)="selectColor($event)" [inputFormatter]="formatter"/>
+    <small *ngIf="searching" class="form-text text-muted">searching...</small>
+    <div class="invalid-feedback" *ngIf="searchFailed">Sorry, suggestions could not be loaded.</div>
+</div>
