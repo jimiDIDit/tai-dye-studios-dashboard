@@ -5,7 +5,7 @@
   </ng-template>
 
   <label for="typeahead-template">Select Color</label>
-  <input name="color-picker" [formControl]="fGroup.controls['color']" id="colorPickerInput" type="text" class="form-control" [placeholder]="model" [ngbTypeahead]="search"
+  <input (keyup.enter)="modalClose ? modalClose(fGroup.value): null" name="color-picker" [formControl]="fGroup.controls['color']" id="colorPickerInput" type="text" class="form-control" [placeholder]="model" [ngbTypeahead]="search"
     [resultTemplate]="rt" (selectItem)="selectColor($event)" [inputFormatter]="formatter"/>
     <small *ngIf="searching" class="form-text text-muted">searching...</small>
     <div class="invalid-feedback" *ngIf="searchFailed">Sorry, suggestions could not be loaded.</div>

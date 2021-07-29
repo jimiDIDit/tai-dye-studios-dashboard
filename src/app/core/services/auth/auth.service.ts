@@ -3,7 +3,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import firebase from 'firebase';
 import { Observable } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, take } from 'rxjs/operators';
 import { ProfileService } from '../profile/profile.service';
 
 @Injectable({
@@ -25,9 +25,10 @@ export class AuthService {
     try {
       const { user } = await this.afAuth.signInWithEmailAndPassword(email, password)
       this.profileService.getProfileById(user.uid).valueChanges()
+      .pipe(take(1))
         .subscribe(profile => {
-          this.router.navigate([profile.firstname, 'dashboard', 'default']);
           this.profileService.updateProfile({ status: 'online' })
+          this.router.navigate(['/u/dashboard', 'default']);
       })
     } catch (error) {
       const reason = { code: `${error.code}`, msg: `${error.msg}`, log: error };

@@ -10,7 +10,7 @@
             </div>
             <div class="col-lg-6">
                 <ol class="breadcrumb pull-right">
-                    <li class="breadcrumb-item"><a [routerLink]="'dashboard/default'" [queryParams]="{user: user}">
+                    <li class="breadcrumb-item"><a [routerLink]="user + '/dashboard/default'">
                             <app-feather-icons [icon]="'home'"></app-feather-icons>
                         </a></li>
                     <li class="breadcrumb-item" *ngIf="breadcrumbs?.parentBreadcrumb">{{breadcrumbs?.parentBreadcrumb}}

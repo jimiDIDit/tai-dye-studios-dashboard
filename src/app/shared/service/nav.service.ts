@@ -1,7 +1,7 @@
 import { Injectable, HostListener, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable, Subscriber } from 'rxjs';
-import { ProfileService } from 'src/app/core/services/profile/profile.service';
+import { ProfileService } from '../../core/services/profile/profile.service';
 import { WINDOW } from "./windows.service";
 // Menu
 export interface Menu {
@@ -51,7 +51,6 @@ export class NavService {
 						{ path: '/products/physical/category', title: 'Category', type: 'link' },
 						{ path: '/products/physical/sub-category', title: 'Sub Category', type: 'link' },
 						{ path: '/products/physical/product-list', title: 'Product List', type: 'link' },
-						{ path: '/products/physical/product-detail', title: 'Product Detail', type: 'link' },
 						{ path: '/products/physical/add-product', title: 'Add Product', type: 'link' },
 					]
 				},

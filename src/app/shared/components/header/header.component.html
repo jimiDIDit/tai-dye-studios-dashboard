@@ -11,9 +11,9 @@
                 </label>
             </div>
         </div>
-        <div class="main-header-left d-lg-none">
-          <div class="logo-wrapper"><a [routerLink]="admin.firstname + '/dashboard/default'"><img class="blur-up lazyloaded"
-                [src]="logoUrl" alt=""></a></div>
+        <div class="main-header-left ml-3 animate__animated" [ngClass]="navServices.screenWidth > 760 ? navServices.collapseSidebar ? 'd-block animate__fadeInDown':'d-none animate__fadeOutUp': 'd-block animate__fadeInDown'">
+          <div class="logo-wrapper"><a [routerLink]="'/u/dashboard/default'"><img class="blur-up lazyloaded"
+                [src]="logoUrl" alt="Tai Dye Studios Logo" style="max-width: 180px;"></a></div>
         </div>
         <div class="nav-right col">
             <ul class="nav-menus" [ngClass]="{'open' : openNav}">
@@ -104,7 +104,7 @@
                                 class="main-circle"></span></div>
                     </div>
                     <ul class="profile-dropdown onhover-show-div p-20 profile-dropdown-hover">
-                        <li><a [routerLink]="admin.firstname + '/settings/profile'">
+                        <li><a [routerLink]="'/u/settings/profile'">
                                 <app-feather-icons [icon]="'user'"></app-feather-icons>Edit Profile
                             </a></li>
                         <li><a href="javascript:void(0)">

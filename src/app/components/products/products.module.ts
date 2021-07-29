@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { CKEditorModule } from 'ngx-ckeditor';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbButtonLabel, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { ProductsRoutingModule } from './products-routing.module';
 import { CategoryComponent } from './physical/category/category.component';
@@ -16,7 +16,6 @@ import { DigitalSubCategoryComponent } from './digital/digital-sub-category/digi
 import { DigitalListComponent } from './digital/digital-list/digital-list.component';
 import { DigitalAddComponent } from './digital/digital-add/digital-add.component';
 import { ProductDetailComponent } from './physical/product-detail/product-detail.component';
-import { GalleryModule } from '@ks89/angular-modal-gallery';
 import 'hammerjs';
 import 'mousetrap';
 
@@ -24,10 +23,10 @@ import { DropzoneModule } from 'ngx-dropzone-wrapper';
 import { DROPZONE_CONFIG } from 'ngx-dropzone-wrapper';
 import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
 import { ProductsService } from './products.service';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
-  maxFilesize: 50,
-  url: 'https://httpbin.org/post',
+  maxFilesize: 50
 };
 
 
@@ -35,15 +34,14 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
 @NgModule({
   declarations: [CategoryComponent, SubCategoryComponent, ProductListComponent, AddProductComponent, DigitalCategoryComponent, DigitalSubCategoryComponent, DigitalListComponent, DigitalAddComponent, ProductDetailComponent],
   imports: [
+    ProductsRoutingModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     CKEditorModule,
-    ProductsRoutingModule,
     Ng2SmartTableModule,
-    NgbModule,
     DropzoneModule,
-    GalleryModule.forRoot()
+    SharedModule
   ],
   providers: [
     ProductsService,
@@ -51,7 +49,8 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
       provide: DROPZONE_CONFIG,
       useValue: DEFAULT_DROPZONE_CONFIG
     },
-    NgbActiveModal
+    NgbActiveModal,
+    NgbButtonLabel
   ]
 })
 export class ProductsModule { }

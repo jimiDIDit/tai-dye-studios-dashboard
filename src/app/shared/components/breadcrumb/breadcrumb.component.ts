@@ -17,7 +17,8 @@ export class BreadcrumbComponent implements OnInit {
 
   constructor(private activatedRoute: ActivatedRoute,
     private router: Router) {
-    activatedRoute.queryParams.subscribe(params => this.user = params.id)
+    const {firstname} = JSON.parse(localStorage.getItem('admin_profile'))
+    this.user = firstname;
 
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
@@ -25,7 +26,6 @@ export class BreadcrumbComponent implements OnInit {
       .pipe(map((route) => {
         while (route.firstChild) {
           route = route.firstChild;
-          this.user = route.snapshot.queryParams.user;
         }
         return route;
       }))

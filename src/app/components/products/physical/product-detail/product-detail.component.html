@@ -1,83 +1,262 @@
-<div class="container-fluid">
+<div class="container-fluid mx-0">
     <div class="card">
-        <div class="row product-page-main card-body">
+        <div class="row product-page-main card-body" *ngIf="product | async as Product">
             <div class="col-xl-4">
                 <section>
-                    <ks-carousel [id]="100" [images]="imagesRect" [dotsConfig]="{visible: false}"
-                        [carouselConfig]="{maxHeight: '600px', keyboardEnable: true}"
-                        [previewConfig]="{maxHeight: '125px'}">
-                    </ks-carousel>
+                    <div class="row justify-content-center">
+                      <div class="col-8 col-sm-12">
+                        <img [src]="selectedImage?.src || photos[0].src" alt="" class="img-fluid image_zoom_1">
+                        <div class="my-1">
+                          <button class="float-right btn btn-xs btn-secondary" (click)="edit('images', Product, content)">Edit
+                            <i class="fa fa-pencil"></i>
+                          </button>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="row justify-content-center mt-3">
+                      <div *ngFor="let item of photos; let i = index;" class="mr-3 pointer-event" (click)="viewImage(item)" style="cursor: pointer;"><img width="80" height="100" [src]="item.src" [alt]="item.alt"></div>
+                    </div>
+                    <hr>
                 </section>
             </div>
-            <div class="col-xl-8">
-                <div class="product-page-details product-right mb-0">
-                    <h2>WOMEN PINK SHIRT</h2>
-                    <ngb-rating [rate]="3" class="rating-size-product"></ngb-rating>
-                    <hr>
-                    <h6 class="product-title">product details</h6>
-                    <p class="mb-0">Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium
-                        doloremque
-                        laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto
-                        beatae vitae dicta sunt, explicabo. Nemo enim ipsam voluptatem,</p>
-                    <div class="product-price digits mt-2">
-                        <h3>$26.00 <del>$350.00</del></h3>
-                    </div>
-                    <ul class="color-variant">
-                        <li class="bg-light0"></li>
-                        <li class="bg-light1"></li>
-                        <li class="bg-light2"></li>
-                    </ul>
-                    <hr>
-                    <h6 class="product-title size-text">select size
-                        <span class="pull-right">
-                            <a data-toggle="modal" (click)="open(content)" class="font-primary">size chart</a>
-                        </span>
-                    </h6>
-                    <ng-template #content let-modal>
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Sheer Straight Kurta</h5>
-                            <button type="button" class="close" aria-label="Close"
-                                (click)="modal.dismiss('Cross click')">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+            <div class="col-xl-8 mt-3">
+              <div class="product-page-details product-right mb-0">
+                <div class="product-main-title">
+                  <h6 class="product-title">Product Title &nbsp;<button class="btn btn-xs btn-secondary position-absolute" (click)="edit('title',  Product, content)">Edit <i
+                    class="fa fa-pencil"></i></button></h6>
+                    <h2>{{Product?.title}}</h2>
+                </div>
+                <hr>
+                <div class="product-color mt-2">
+                  <h6 class="product-title">Product Colors <small>Click To Edit Color</small></h6>
+                  <ul class="color-variant">
+                    <li *ngFor="let color of Colors(Product.variants); let i = index;" [ngClass]="color"
+                      [style.background-color]="color" [title]="color | titlecase" (click)="edit('color',  Product, content, i)"></li>
+                  </ul>
+                </div>
+                <hr>
+                <div class="product-id mt-2">
+                  <h6 class="product-title">Product ID &nbsp;<button class="btn btn-xs btn-secondary position-absolute"
+                      (click)="edit('id',  Product, content)">Edit <i class="fa fa-pencil"></i></button></h6>
+                  <h2>{{Product?.id}}</h2>
+                </div>
+                <hr>
+                <div class="product-collection mt-2">
+                  <h6 class="product-title">Product Collection &nbsp;<button class="btn btn-xs btn-secondary position-absolute"
+                      (click)="edit('collection', Product, content)">Edit <i class="fa fa-pencil"></i></button></h6>
+                      <div class="d-inline-flex flex-wrap m-3">
+                        <span *ngFor="let tag of Product.collection; let i = index;" class="badge badge-primary p-2 m-1 d-flex align-items-center">{{tag}} <button class="btn btn-xs btn-link mr-0 pr-0" (click)="deleteTag('collection', Product, i)"><i
+                            class="fa fa-close text-dark"></i></button></span>
+                      </div>
+                </div>
+                <hr>
+                <div class="product-collection mt-2">
+                  <h6 class="product-title">Product Tags &nbsp;<button class="btn btn-xs btn-secondary position-absolute"
+                      (click)="edit('tags', Product, content)">Edit <i class="fa fa-pencil"></i></button></h6>
+                  <div class="d-inline-flex flex-wrap m-3">
+                    <span *ngFor="let tag of Product.tags; let i = index;" class="badge badge-primary p-2 m-1 pr-0 d-flex align-items-center" style="min-width: 40px;">{{tag}} <button class="btn btn-xs btn-link mr-0 pr-0" (click)="deleteTag('tags', Product, i)"><i class="fa fa-close text-dark"></i></button></span>
+                  </div>
+                </div>
+                <hr>
+                <div class="product-description mt-2">
+                  <h6 class="product-title">product description &nbsp;<button class="btn btn-xs btn-secondary" (click)="edit('description', Product, content)">Edit <i
+                      class="fa fa-pencil"></i></button></h6>
+                  <div class="mb-0" [innerHTML]="Product?.description | safeHtml"></div>
+                </div>
+                <hr>
+                <div class="product-variations mt-2">
+                  <h6 class="product-title">Product Variations</h6>
+                    <ul class="list-group d-flex-column col-xl-8 col-sm-12 px-0">
+                      <li class="list-group-item list-group-item-dark">
+                        <div class="row justify-content-between">
+                          <strong class="w-25 text-center">Size</strong>
+                          <strong class="w-25 text-center">Price</strong>
+                          <strong class="w-25 text-center">SKU</strong>
+                          <strong class="w-25 text-center"></strong>
                         </div>
-                        <div class="modal-body">
-                            <img src="assets/images/size-chart.jpg" alt="" class="img-fluid blur-up lazyloaded">
-                        </div>
-                    </ng-template>
-                    <div class="size-box">
-                        <ul>
-                            <li class="active"><a href="javascript:void(0)">s</a></li>
-                            <li><a href="javascript:void(0)">m</a></li>
-                            <li><a href="javascript:void(0)">l</a></li>
-                            <li><a href="javascript:void(0)">xl</a></li>
-                        </ul>
-                    </div>
-                    <div class="add-product-form">
-                        <h6 class="product-title">quantity</h6>
-                        <div class="qty-box1">
-                            <div class="input-group">
-                                <i class="fa fa-minus btnGtr1" (click)=decrement()></i>
-                                <input class="touchspin1 text-center" name="counter" [value]="counter" type="text">
-                                <i class="fa fa-plus btnLess1" (click)=increment()></i>
+                      </li>
+                      <li class="list-group-item mt-1 list-group-item-secondary px-1 mx-0" *ngFor="let variant of Product.variants; let i = index;">
+                        <div class="d-flex justify-content-between align-items-center py-2 px-0 mx-0">
+                          <div class="w-25 text-center border-right">Size: <strong>{{variant.size | uppercase}}</strong></div>
+                          <div class="w-25 text-center border-right">Price: <strong>{{variant.price}}</strong></div>
+                          <div class="w-25 text-center border-right">SKU: <strong>{{variant.sku}}</strong></div>
+                          <div ngbDropdown class="d-inline-block w-25">
+                            <button class="btn btn-link btn-sm mx-1 px-1" id="variantMenuDropdown" ngbDropdownToggle>Actions</button>
+                            <div ngbDropdownMenu aria-labelledby="variantMenuDropdown" >
+                              <h4 class="dropdown-header" disabled>Variant Actions</h4>
+                              <button class="dropdown-item p-2" (click)="edit('price', Product, content, i)">
+                                <i class="fa fa-pencil text-dark"></i>&nbsp; Edit Price
+                              </button>
+                              <button class="dropdown-item p-2" (click)="deleteVariant('size', Product, i)">
+                                <i class="fas fa-trash-alt text-dark"></i>&nbsp; Delete Variant
+                              </button>
                             </div>
+                          </div>
                         </div>
-                    </div>
-                    <hr>
-                    <h6 class="product-title">Time Reminder</h6>
-                    <div class="timer">
-                        <p id="demo"><span>25 <span class="padding-l">:</span> <span class="timer-cal">Days</span>
-                            </span><span>22 <span class="padding-l">:</span> <span class="timer-cal">Hrs</span>
-                            </span><span>13 <span class="padding-l">:</span> <span class="timer-cal">Min</span>
-                            </span><span>57 <span class="timer-cal">Sec</span></span>
-                        </p>
-                    </div>
-                    <div class="m-t-15">
-                        <button class="btn btn-primary m-r-10" type="button">Add To Cart</button>
-                        <button class="btn btn-secondary" type="button">Buy Now</button>
-                    </div>
+                      </li>
+                      <li class="pointer-event list-group-item mt-0 mb-1 py-3 bg-primary text-light" style="cursor: pointer;" (click)="addVariant(Product, addVariantModal)">
+                        <strong><i class="fa fa-plus"></i>&nbsp; Add Variant</strong></li>
+                    </ul>
+                </div>
+                <hr>
+                <div class="product-discount digits mt-2">
+                  <h6 class="product-title">Product Discount <button class="btn btn-xs btn-secondary"
+                      (click)="edit('discount', Product, content)">Edit <i class="fa fa-pencil"></i></button></h6>
+                  <h3>{{Product?.discount || 0}}%</h3>
+                </div>
+                <hr>
+                <div class="product-stock mt-2">
+                    <h6 class="product-title">Stock</h6>
+                    <h3>{{Product.stock}} &nbsp;<button class="btn btn-xs btn-secondary" (click)="edit('stock', Product, content)">Edit <i
+                        class="fa fa-pencil"></i></button></h3>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Edit Product {{editConfig?.property | titlecase}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <form class="needs-validation" novalidate [formGroup]="editConfig?.formGroup">
+            <div class="add-product-form">
+              <div [ngSwitch]="editConfig['property']">
+                <div class="form-group row" *ngSwitchCase="'title'">
+                  <input (keyup.enter)="c(editConfig.formGroup.value)" class="form-control col" [id]="editConfig.product.id  + '-Title'" [name]="editConfig.product.id  + '-Title'"
+                    [type]="editConfig.controlType" [formControl]="editConfig.formGroup.controls['title']"
+                    [value]="editConfig.product[editConfig.propVal]">
+                </div>
+                <div class="form-group row" *ngSwitchCase="'description'">
+                  <div class="col pl-0 description-sm">
+                    <ck-editor [formControl]="editConfig.formGroup?.controls[editConfig.property]" [id]="editConfig.product.id + '-Description'" language="en"  [fullPage]="false">{{editConfig.product.description}}</ck-editor>
+                  </div>
+                </div>
+                <div class="form-group row" *ngSwitchCase="'price'">
+                  <input (keyup.enter)="c(editConfig.formGroup.value)" class="form-control col" [id]="editConfig.product.id + '-Price'" [name]="editConfig.product.id + '-Price'" type="number"
+                    [formControl]="editConfig.formGroup.controls['price']" [value]="editConfig.product[editConfig.propVal]">
+                </div>
+                <div class="form-group row" *ngSwitchCase="'discount'">
+                  <input (keyup.enter)="c(editConfig.formGroup.value)" class="form-control col" [id]="editConfig.product.id + '-Discount'" [name]="editConfig.product.id + '-Discount'"
+                    type="number" [formControl]="editConfig.formGroup.controls['discount']"
+                    [value]="editConfig.propVal">
+                </div>
+                <div class="form-group row" *ngSwitchCase="'color'">
+                  <app-color-picker [modalClose]="c" [model]="editConfig.propVal" [fGroup]="editConfig?.formGroup" [fControl]="editConfig.formGroup?.controls[editConfig.property]"></app-color-picker>
+                </div>
+                <div class="form-group row" *ngSwitchCase="'stock'">
+                  <input (keyup.enter)="c(editConfig.formGroup.value)" class="form-control col" [id]="editConfig.product.id + '-Stock'" [name]="editConfig.product.id + '-Stock'"
+                    type="number" [formControl]="editConfig.formGroup.controls['stock']"
+                    [value]="editConfig.propVal">
+                </div>
+                <div class="form-group row" *ngSwitchCase="'images'">
+                  <app-image-upload [size]="'lg'" [mode]="'edit'" [config]="mediaUploadConfig" [form]="editConfig.formGroup"></app-image-upload>
+                </div>
+                <div class="form-group row" *ngSwitchCase="'collection'">
+                  <div class="form-group row">
+                    <ngx-tags-input class="col m-2" [limit]="15" [header]="' '"
+                      [placeholder]="'Add Collection'" (tagsChange)="editConfig.add($event)"></ngx-tags-input>
+                  </div>
+                </div>
+                <div class="form-group row" *ngSwitchCase="'tags'">
+                  <div class="form-group row">
+                    <ngx-tags-input class="col m-2" [limit]="15" [header]="' '" [placeholder]="'Add Collection'"
+                      (tagsChange)="editConfig.add($event)"></ngx-tags-input>
+                  </div>
+                </div>
+                <div class="form-group row" *ngSwitchCaseDefault>
+                  <input class="form-control col" [id]="editConfig.product.id + '-' + editConfig.property"
+                    [type]="editConfig.controlType" [formControl]="editConfig.formGroup.controls[editConfig.property]"
+                    [value]="editConfig.product[editConfig.propVal]">
+                </div>
+              </div>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer justify-content-end">
+    <div class="product-buttons">
+      <button type="button" class="btn btn-primary mr-1" (click)="c(editConfig.formGroup.value)">Save</button>
+      <button type="button" class="btn btn-light" (click)="d()">Cancel</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #saveOrDiscard let-c="close" let-d="dismiss">
+  <div class="modal-header bg-warning">
+    <h4 class="modal-title">Leave Page Without Saving?</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Are you sure you want to leave without saving?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-warning" (click)="c(true)">Leave without saving</button>
+    <button type="button" class="btn btn-warning" (click)="c(false)">Stay on page</button>
+  </div>
+</ng-template>
+
+<ng-template #dangerToast>
+  Variant Deleted!
+</ng-template>
+
+<ng-template #addVariantModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Add Variant</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form name="newVariantForm" [formGroup]="variant">
+      <div class="container">
+        <div class="product-property price">
+          <div class="row">
+            <h5 class="product-property-title col">Price</h5>
+          </div>
+          <div class="form-group row">
+            <input class="form-control col" placeholder="Set Variant Price" id="variantPriceInput" type="number"
+              [formControl]="variant.controls['price']" required="">
+          </div>
+        </div>
+        <div class="product-property sizes">
+          <div class="row">
+            <h5 class="product-property-title col">Sizes</h5>
+          </div>
+          <div class="form-group row">
+            <input (keydown.enter)="c(variant.value)" class="form-control col" type="text"
+              [formControl]="variant.controls['size']" placeholder="Set Variant Size (S,M,L,XL,XXL,XXXL)"
+              name="variantSize" id="variantSizeInput">
+          </div>
+        </div>
+        <div class="product-property color">
+          <div class="row">
+            <h5 class="product-property-title col">Color</h5>
+          </div>
+          <div class="form-group row">
+            <app-color-picker [modalClose]="c" [model]="variant.controls['color'].value" [fGroup]="variant"
+              [fControl]="variant.controls['color']"></app-color-picker>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="c(variant.value)">Add</button>
+    <button class="btn btn-secondary" (click)="d('Add Variant Canceled')">Cancel</button>
+  </div>
+</ng-template>
+
+<!--  -->

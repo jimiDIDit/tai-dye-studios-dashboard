@@ -4,40 +4,41 @@ import { content } from './shared/routes/content-routes';
 import { ContentLayoutComponent } from './shared/layout/content-layout/content-layout.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { map } from 'rxjs/operators';
-import { AdminDataResolverService } from './shared/resolvers/admin-data-resolver.service';
+
 import { AuthGuard } from './core/guards/auth.guard';
+import { AdminDataResolverService } from './shared/resolvers/admin-data-resolver.service';
 
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'dashboard/default',
-    pathMatch: 'full'
+    pathMatch: 'full',
+    redirectTo: 'u/dashboard/default'
   },
   {
-    path: '',
+    path: 'u',
     component: ContentLayoutComponent,
+    canActivateChild: [AuthGuard],
+    children: [...content],
     resolve: {
       data: AdminDataResolverService
-    },
-    canActivateChild: [AuthGuard],
-    children: content
+    }
   },
   {
     path: 'auth/login',
-    component: LoginComponent,
+    component: LoginComponent
   },
   {
     path: '**',
-    redirectTo: 'dashboard/default',
-    pathMatch: 'full'
+    pathMatch: 'full',
+    redirectTo: 'u/dashboard/default'
   }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, {
     scrollPositionRestoration: 'enabled',
-    relativeLinkResolution: 'legacy'
+    relativeLinkResolution: 'corrected'
 })],
   exports: [RouterModule]
 })

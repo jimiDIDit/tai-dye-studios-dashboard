@@ -11,6 +11,7 @@ import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap } f
 })
 export class ColorPickerComponent implements OnInit {
   @Input() model: any;
+  @Input() modalClose: (val) => any;
   @Input() fGroup: FormGroup;
   @Input() fControl: FormControl;
   searching = false;

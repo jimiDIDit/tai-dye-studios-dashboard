@@ -9,6 +9,9 @@ import { AddProductComponent } from './physical/add-product/add-product.componen
 // import { DigitalListComponent } from './digital/digital-list/digital-list.component';
 // import { DigitalAddComponent } from './digital/digital-add/digital-add.component';
 import { ProductDetailComponent } from './physical/product-detail/product-detail.component';
+import { ProductResolverService } from 'src/app/shared/resolvers/product-resolver.service';
+import { CanDeactivateGuard } from 'src/app/core/guards/can-deactivate.guard';
+
 
 const routes: Routes = [
   {
@@ -39,8 +42,12 @@ const routes: Routes = [
         }
       },
       {
-        path: 'physical/product-detail',
+        path: 'physical/product-detail/:id',
         component: ProductDetailComponent,
+        resolve: {
+          data: ProductResolverService
+        },
+        canDeactivate: [CanDeactivateGuard],
         data: {
           title: "Product Detail",
           breadcrumb: "Product Detail"
@@ -49,6 +56,7 @@ const routes: Routes = [
       {
         path: 'physical/add-product',
         component: AddProductComponent,
+        canDeactivate: [CanDeactivateGuard],
         data: {
           title: "Add Products",
           breadcrumb: "Add Product"

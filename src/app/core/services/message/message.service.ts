@@ -25,11 +25,12 @@ export class MessageService {
       .valueChanges()
       .pipe(map(users => {
         return users.filter(user => user.permissions.messages && user.id !== userId).map(user => {
-          const { id, displayName, photoUrl } = user;
+          const { id, displayName, photoUrl, status } = user;
           const participant: GroupMember = {
             id,
             displayName,
             photoUrl,
+            status
           }
           return participant;
         })

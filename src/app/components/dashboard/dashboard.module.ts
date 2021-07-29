@@ -13,14 +13,14 @@ import { SharedModule } from '../../shared/shared.module';
 @NgModule({
   declarations: [DashboardComponent],
   imports: [
-    CommonModule,
     DashboardRoutingModule,
+    CommonModule,
     CountToModule,
     SharedModule,
     ChartsModule,
     Ng2GoogleChartsModule,
     NgxChartsModule,
-    ChartistModule
+    ChartistModule,
   ]
 })
 export class DashboardModule { }

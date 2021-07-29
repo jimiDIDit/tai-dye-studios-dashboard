@@ -4,6 +4,8 @@ import { AngularFireDatabase } from '@angular/fire/database';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { BehaviorSubject, Observable, scheduled } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Product } from 'src/app/components/products/product.interface';
+import { AdminProfile } from '../profile/profile.service';
 
 export interface DataState {
   [name: string]: any;
@@ -45,16 +47,56 @@ export class DataService {
     return this.Sales = this.getCollection('orders')
   }
 
+  public get team() {
+    return this.Team = this.getCollection<AdminProfile>('admins');
+  }
+
+  public get reports() {
+    return this.Reports = this.getCollection('reports');
+  }
+
+  public get marketing() {
+    return this.Marketing = this.getCollection('marketing');
+  }
+
+  public get coupons() {
+    return this.Coupons = this.getList('coupons');
+  }
+
+  public get settings() {
+    return this.Settings = this.getCollection('settings');
+  }
+
+  public get customers() {
+    return this.Customers = this.getCollection('users');
+  }
+
+  public get vendors() {
+    return this.Vendors = this.getCollection('vendors');
+  }
+
   public get products() {
-    return this.Products = this.getList('products');
+    return this.Products = this.getList<Product>('products');
   }
 
-  public getCollection(name: string) {
-    return this.afs.collection(name);
+  public addProductToDatabase(listName: string, id: number | string, item: any) {
+    this.db.object(`${listName}/${id}`).set(item);
   }
 
-  public getList(name: string) {
-    return this.db.list(name);
+  public get testProducts() {
+    return this.Products = this.getList<Product>('test-products');
+  }
+
+  public getCollection<T = any>(name: string) {
+    return this.afs.collection<T>(name);
+  }
+
+  public getLocalCollection(name: string) {
+    return state[name];
+  }
+
+  public getList<T = any>(name: string) {
+    return this.db.list<T>(name);
   }
 
 }

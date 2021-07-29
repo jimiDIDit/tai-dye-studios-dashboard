@@ -1,0 +1,100 @@
+<!-- ========================== ADD MEDIA ============================ -->
+<div [class]="['col', 'image-upload', 'image-upload-container', setSize(size)]" *ngIf="mode === 'add'">
+  <div class="row">
+    <div class="my-3 col add-file-btn">
+      <h5><b>Upload Images <small>Displayed in order of selection</small></b></h5>
+      <!-- START ADD File Input -->
+      <div class="col-12 mt-1">
+        <input multiple [maxLength]="4" type="file" class="custom-file-input" id="customFile" (change)="read($event, config)">
+
+        <!-- START Uploads -->
+        <label class="file-input-label"
+          for="customFile">
+          <div class="box-input-file d-inline-flex">
+            <div *ngFor="let item of staged; let i=index" class="upload-item mr-3 mb-3">
+              <img class="imgUpload img-fluid" alt="" [src]="item.preview">
+              <a href="javascript: void(0)" (click)="discardItem(item, i)" class="btn btn-light btn-sm discard-btn"><i
+                class="fa fa-close" aria-hidden="true"></i></a>
+            </div>
+            <div class="upload-item add-upload-btn">
+              <div class="imgUpload">
+                <i class="fas fa-plus fa-2x fa-fw"></i>
+              </div>
+            </div>
+          </div>
+        </label>
+      </div>
+      <!-- END File Input -->
+    </div>
+  </div>
+  <div class="row btn-toolbar" role="toolbar" aria-label="save uploaded images controls">
+    <div class="btn-group justify-content-end" role="group" aria-label="save-or-cancel-uploads">
+      <button class="btn btn-primary mr-1" aria-label="save uploads" [disabled]="!staged.length" (click)="upload(staged)">Upload</button>
+      <button class="btn btn-secondary" aria-label="discard uploads" (click)="discard(staged)">Discard</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========================== EDIT MEDIA ============================ -->
+
+<div [class]="['col', 'image-upload', 'image-upload-container', setSize(size)]" *ngIf="mode === 'edit'">
+  <div class="row">
+    <div class="my-3 col add-file-btn">
+      <h5><b>Upload Images <small>Displayed in order of selection</small></b></h5>
+      <!-- START Custom Switch -->
+      <!-- <div class="custom-control custom-switch col-2 offset-2">
+        <input type="checkbox" [(ngModel)]="config.appendUploadToExisting" class="custom-control-input checkbox-primary"
+          id="appendToExisting" checked="false">
+        <label class="custom-control-label" for="appendToExisting">Append</label>
+      </div> -->
+      <!-- END Custome Switch -->
+
+      <!-- START EDIT File Input -->
+      <form class="col-12 mt-1" #uploadForm="ngForm" name="uploadform" novalidate>
+        <input multiple [maxLength]="4" #files type="file" name="media-upload" class="custom-file-input"
+          id="customFile" (change)="read($event, config, uploadForm)">
+
+        <!-- START Uploads -->
+        <label class="file-input-label" for="customFile">
+          <div class="box-input-file d-inline-flex">
+            <div *ngFor="let item of staged; let i=index" class="upload-item mr-3 mb-3">
+              <img class="imgUpload img-fluid" alt="" [src]="item.preview">
+              <a href="javascript: void(0)" (click)="discardItem(item, i)" class="btn btn-light btn-sm discard-btn"><i
+                  class="fa fa-close" aria-hidden="true"></i></a>
+            </div>
+            <div class="upload-item add-upload-btn">
+              <div class="imgUpload">
+                <i class="fas fa-plus fa-2x fa-fw"></i>
+              </div>
+            </div>
+          </div>
+        </label>
+      </form>
+      <!-- END File Input -->
+    </div>
+  </div>
+  <div class="row btn-toolbar" role="toolbar" aria-label="save uploaded images controls">
+    <div class="btn-group justify-content-end" role="group" aria-label="save-or-cancel-uploads">
+      <button class="btn btn-primary mr-1" aria-label="save uploads" [disabled]="!staged.length"
+        (click)="edit(staged)">Upload</button>
+      <button class="btn btn-secondary" aria-label="discard uploads" (click)="discard(staged)">Discard</button>
+    </div>
+  </div>
+</div>
+
+<ng-template #uploadErrorModal let-c="close" let-d="dismiss">
+  <div class="modal-header bg-warning">
+    <h4 class="modal-title">Upload Error</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>{{uploadErrorMsg | uppercase}}</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-warning" (click)="c('Close click')">OK</button>
+  </div>
+</ng-template>
+
+

@@ -12,12 +12,12 @@
                             <div class="product-hover">
                                 <ul>
                                     <li>
-                                        <button class="btn" type="button" data-original-title="" title=""><i
+                                        <button class="btn" type="button" data-original-title="" [title]="adminRole !== 'ADMIN' ? 'Only ADMIN can edit products': 'Edit ' + product.title" (click)="editProduct(product, content)" ><i
                                                 class="icon-pencil-alt"></i></button>
                                     </li>
                                     <li>
                                         <button class="btn" type="button" data-toggle="modal"
-                                            data-target="#exampleModalCenter" data-original-title="" title=""><i
+                                            data-target="#exampleModalCenter" data-original-title="" [title]="adminRole !== 'ADMIN' ? 'Only ADMIN can delete products': 'Delete ' + product.title" (click)="deleteProduct(product, content)" ><i
                                                 class="icon-trash"></i></button>
                                     </li>
                                 </ul>
@@ -30,7 +30,8 @@
                         <a href="javascript:void(0)">
                             <h6>{{product.title}}</h6>
                         </a>
-                        <h4>{{product.discount}} <del>{{product.price}}</del></h4>
+                        <h4 *ngIf="!product.discount">${{product.price}}</h4>
+                        <h4 *ngIf="product.discount">${{ discount(product.price, product.discount)}} <del>${{product.price}}</del>  &nbsp;<small><i class="fa fa-money-bill"></i> &nbsp;{{product.discount}}% off</small></h4>
                         <ul class="color-variant">
                             <li class="" [style.background-color]="product.variants[0].color"></li>
                         </ul>
@@ -40,3 +41,39 @@
         </div>
     </div>
 </div>
+<ng-template #content let-c="close" let-d="dismiss">
+  <div *ngIf="adminRole === 'ADMIN'">
+    <div class="modal-header bg-danger">
+      <h4 class="modal-title">Are You Sure?</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>Are you sure you want to delete this product? <b>You CANNOT undo!</b></p>
+    </div>
+    <div class="modal-footer justify-content-end">
+      <div class="product-buttons">
+        <button type="button" class="btn btn-danger mr-1" (click)="c(true)">Delete</button>
+        <button type="button" class="btn btn-light" (click)="d('Dismissed by CANCEL button click')">Cancel</button>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="adminRole !== 'ADMIN'">
+    <div class="modal-header bg-danger">
+      <h4 class="modal-title">Not Authorized!</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>You have a role of <b>{{adminRole}}</b> and are not authorized to make changes to products.</p>
+      <p>If you believe this is a mistake, please contact your supervising ADMIN.</p>
+    </div>
+    <div class="modal-footer justify-content-end">
+      <div class="product-buttons">
+        <button type="button" class="btn btn-light" (click)="d('Dismissed by CLOSE button click')">Close</button>
+      </div>
+    </div>
+  </div>
+</ng-template>

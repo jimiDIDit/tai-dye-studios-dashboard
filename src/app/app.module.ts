@@ -27,8 +27,10 @@ import { CoreModule } from './core/core.module';
     AppComponent,
   ],
   imports: [
+    AppRoutingModule,
     BrowserAnimationsModule,
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
+
     DashboardModule,
     InvoiceModule,
     SettingModule,
@@ -45,7 +47,6 @@ import { CoreModule } from './core/core.module';
     MenusModule,
     UsersModule,
     CoreModule,
-    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

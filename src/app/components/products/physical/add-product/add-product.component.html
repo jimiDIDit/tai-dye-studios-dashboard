@@ -8,91 +8,157 @@
                 </div>
                 <div class="card-body">
                     <div class="row product-adding">
-                        <div class="col-xl-5">
+                        <div class="col-xl-6">
                             <div class="add-product">
+                                <div class="row justify-content-center">
+                                    <div class="col-8 col-sm-12">
+                                        <img [src]="selectedImage?.src" alt="" class="img-fluid image_zoom_1">
+
+                                    </div>
+
+                                </div>
+                                <div class="row justify-content-center">
+                                  <div class="col-lg-8 col-sm-12 d-inline-flex my-3 flex-wrap">
+                                    <div *ngFor="let item of photoUrls; let i=index;" class="box-input-file mb-1 mr-1" style="width: 80px; cursor: pointer;" (click)="viewImage(item, i)">
+                                      <img class="imgUpload" width="80" alt="" [src]="item.src">
+                                    </div>
+                                  </div>
+                                </div>
                                 <div class="row">
-                                    <div class="col-xl-9 xl-50 col-sm-6 col-9">
-                                        <img src="../../../../../assets/images/pro3/1.jpg" alt="" class="img-fluid image_zoom_1">
-                                    </div>
-                                    <div class="col-xl-3 xl-50 col-sm-6 col-3">
-                                        <ul class="file-upload-product">
-                                            <li *ngFor="let item of url; let i=index">
-                                                <div class="box-input-file">
-                                                    <input class="upload" type="file" (change)="readUrl($event,i)">
-                                                    <img class="imgUpload" alt="" [src]="item.img"></div>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                  <div class="col-md-8 offset-md-2 my-3">
+                                    <app-image-upload [images]="photoUrls" [config]="mediaUploadConfig" [mode]="'add'"></app-image-upload>
+                                  </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-7">
+                        <div class="col-xl-6">
                             <form class="needs-validation" [formGroup]="productForm" novalidate>
-                                <div class="add-product-form">
-                                    <div class="form-group row">
-                                        <label for="validationCustom01" class="col-xl-3 col-sm-4 mb-0">Title
-                                            :</label>
-                                        <input class="form-control col-xl-8 col-sm-7" id="validationCustom01"
-                                            type="text" [formControl]="productForm.controls['name']" required>
-                                        <div *ngIf="productForm.controls.name.touched && productForm.controls.name.errors?.required"
-                                            class="text text-danger">
-                                            Title Name is required.
-                                        </div>
+                                <div class="add-product-form mx-3">
+                                  <div class="product-property title">
+                                    <div class="row">
+                                      <h5 class="product-property-title col-sm-12 col-lg-8 offset-lg-2">Title</h5>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="validationCustom02" class="col-xl-3 col-sm-4 mb-0">Price :</label>
-                                        <input class="form-control col-xl-8 col-sm-7" id="validationCustom02"
+
+                                        <input (blur)="addProp('title', product, productForm.controls['title'].value)" class="form-control col-sm-12 col-lg-8 offset-lg-2" placeholder="Add Product Title" id="productTitleInput"
+                                            type="text" [formControl]="productForm.controls['title']" required>
+                                    </div>
+                                  </div>
+                                  <div class="product-property category">
+                                    <div class="row">
+                                      <h5 class="product-property-title col-sm-12 col-lg-8 offset-lg-2">Category</h5>
+                                    </div>
+                                    <div class="form-group row">
+
+                                      <input (blur)="addProp('category', product, productForm.controls['category'].value)" class="form-control col-sm-12 col-lg-8 offset-lg-2" placeholder="Add Product Category" id="productCategoryInput"
+                                        type="text" [formControl]="productForm.controls['category']" required>
+                                    </div>
+                                  </div>
+                                  <div class="product-property type">
+                                    <div class="row">
+                                      <h5 class="product-property-title col-sm-12 col-lg-8 offset-lg-2">Type</h5>
+                                    </div>
+                                    <div class="form-group row">
+
+                                      <input (blur)="addProp('type', product, productForm.controls['type'].value)" class="form-control col-sm-12 col-lg-8 offset-lg-2" placeholder="Add Product Type" id="productTypeInput"
+                                        type="text" [formControl]="productForm.controls['type']" required>
+                                    </div>
+                                  </div>
+                                  <div class="product-property brand">
+                                    <div class="row">
+                                      <h5 class="product-property-title col-sm-12 col-lg-8 offset-lg-2">Brand</h5>
+                                    </div>
+                                    <div class="form-group row">
+
+                                      <input (blur)="addProp('brand', product, productForm.controls['brand'].value)" class="form-control col-sm-12 col-lg-8 offset-lg-2" placeholder="Add Product Brand" id="productBrandInput"
+                                        type="text" [formControl]="productForm.controls['brand']" required>
+                                    </div>
+                                  </div>
+                                  <div class="product-property collection">
+                                    <div class="row">
+                                      <h5 class="product-property-title col-sm-12 col-lg-8 offset-lg-2">Collection</h5>
+                                    </div>
+                                    <div class="form-group row">
+                                      <ngx-tags-input name="productCollection" class="col-sm-12 col-lg-8 offset-lg-2" [limit]="15" [header]="' '" [placeholder]="'Add Collection'"
+                                        (tagsChange)="displayTags($event, product, 'collection')"></ngx-tags-input>
+                                    </div>
+                                  </div>
+                                  <div class="product-property tags">
+                                    <div class="row">
+                                      <h5 class="product-property-title col-sm-12 col-lg-8 offset-lg-2">Tags</h5>
+                                    </div>
+                                    <div class="form-group row">
+                                      <ngx-tags-input class="col-sm-12 col-lg-8 offset-lg-2" [limit]="15" [header]="' '" [placeholder]="'Add Tag'"
+                                        (tagsChange)="displayTags($event, product, 'tags')"></ngx-tags-input>
+                                    </div>
+                                  </div>
+                                  <div class="product-property price">
+                                    <div class="row">
+                                      <h5 class="product-property-title col-sm-12 col-lg-8 offset-lg-2">Base Price</h5>
+                                    </div>
+                                    <div class="form-group row">
+                                        <input (blur)="addProp('price', product, productForm.controls['price'].value)" class="form-control col-sm-12 col-lg-8 offset-lg-2" placeholder="Add Product Price" id="productPriceInput"
                                             type="number" [formControl]="productForm.controls['price']" required="">
-                                        <div *ngIf="productForm.controls.price.touched && productForm.controls.price.errors?.required"
-                                            class="text text-danger">
-                                            Product Price is required.
-                                        </div>
+                                    </div>
+                                  </div>
+                                  <div class="product-property discount">
+                                    <div class="row">
+                                      <h5 class="product-property-title col-sm-12 col-lg-8 offset-lg-2">Discount</h5>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="validationCustom03" class="col-xl-3 col-sm-4 mb-0">Product Code
-                                            :</label>
-                                        <input class="form-control col-xl-8 col-sm-7" id="validationCustom03"
-                                            type="number" [formControl]="productForm.controls['code']" required="">
-                                        <div *ngIf="productForm.controls.code.touched && productForm.controls.code.errors?.required"
-                                            class="text text-danger">
-                                            Product <Code></Code> is required.
+                                      <input (blur)="addProp('discount', product, productForm.controls['discount'].value)"
+                                        class="form-control col-sm-12 col-lg-8 offset-lg-2" placeholder="Add Product Discount" id="productDiscountInput"
+                                        type="number" [formControl]="productForm.controls['discount']" required="">
+                                    </div>
+                                  </div>
+                                  <div class="product-property variants">
+                                    <div class="row">
+                                      <h5 class="product-property-title col-sm-12 col-lg-8 offset-lg-2">Add Variant</h5>
+                                    </div>
+                                    <ul class="list-group d-flex-column col-sm-12 col-lg-8 offset-lg-2">
+                                      <li class="list-group-item my-1 bg-gray py-0 my-0" *ngFor="let variant of product.variants; let i = index;">
+                                        <div class="d-flex justify-content-start align-items-center p-2">
+                                          <div class="px-3 border-right">Size: <strong>{{variant.size | uppercase}}</strong></div>
+                                          <div class="px-3 border-right">Price: <strong>{{variant.price}}</strong></div>
+                                          <div class="px-3 border-right">SKU: <strong>{{variant.sku}}</strong></div>
+                                          <div class="px-3 border-right"><div [style.backgroundColor]="variant.color" style="width: 30px; height: 30px; border: white 1px solid; border-radius: 50%;"></div></div>
+                                          <div class="ml-auto">
+                                            <button class="btn btn-sm py-1 px-2 rounded-circle btn-danger" (click)="deleteVariant(product, i)"> <i
+                                                class="text-light fas fa-trash"></i></button>
+                                          </div>
                                         </div>
+                                      </li>
+                                      <li class="pointer-event list-group-item mb-1" (click)="addVariant(product, addVariantModal)"><i class="fa fa-plus"></i> New Variant</li>
+                                    </ul>
+                                  </div>
+                                  <div class="product-property stock">
+                                    <div class="row">
+                                      <h5 class="product-property-title col-sm-12 col-lg-8 offset-lg-2">Stock Quantity</h5>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="exampleFormControlSelect1" class="col-xl-3 col-sm-4 mb-0">Select
-                                            Size
-                                            :</label>
-                                        <select class="form-control digits col-xl-8 col-sm-7"
-                                            id="exampleFormControlSelect1">
-                                            <option>Small</option>
-                                            <option>Medium</option>
-                                            <option>Large</option>
-                                            <option>Extra Large</option>
-                                        </select>
+                                      <div class="pl-0 col-sm-12 col-lg-8 offset-lg-2">
+                                            <input (blur)="addProp('stock', product, productForm.controls['stock'].value)" class="form-control" name="productStock" id="productStockInput" [formControl]="productForm.controls['stock']"
+                                                type="number">
+
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="product-property description">
+                                    <div class="row">
+                                      <h5 class="product-property-title col-sm-12 col-lg-8 offset-lg-2">Description</h5>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-xl-3 col-sm-4 mb-0">Total Products :</label>
-                                        <div class="qty-box1">
-                                            <div class="input-group">
-                                                <i class="fa fa-minus btnGtr1" (click)=decrement()></i>
-                                                <input class="touchspin1 text-center" name="counter" [value]="counter"
-                                                    type="text">
-                                                <i class="fa fa-plus btnLess1" (click)=increment()></i>
-                                            </div>
-                                        </div>
+                                      <div class=" col-sm-12 col-lg-8 offset-lg-2 pl-0 description-sm">
+                                        <ck-editor (blur)="addProp('description', product, productForm.controls['description'].value)" [formControl]="productForm.controls['description']" id="editor1" language="en" [fullPage]="false"></ck-editor>
+                                      </div>
                                     </div>
-                                    <div class="form-group row">
-                                        <label class="col-xl-3 col-sm-4">Add Description :</label>
-                                        <div class="col-xl-8 col-sm-7 pl-0 description-sm">
-                                            <ck-editor id="editor1" language="en" [fullPage]="false"></ck-editor>
-                                        </div>
-                                    </div>
+                                  </div>
                                 </div>
                             </form>
                             <div class="form-group row mb-0">
                                 <div class="product-buttons col-sm-8 offset-xl-3 offset-sm-4">
-                                    <button type="button" class="btn btn-primary mr-1">Add</button>
-                                    <button type="button" class="btn btn-light">Discard</button>
+                                    <button type="button" class="btn btn-primary mr-1" (click)="addProduct(product, photoUrls)" [disabled]="productForm.invalid && !photoUrls.length">Add <i class="fa fa-spinner" [ngClass]="saving ? 'd-inline-block fa-spin':'d-none'"></i> </button>
+                                    <button type="button" class="btn btn-light" (click)="discard(product)">Discard</button>
                                 </div>
                             </div>
                         </div>
@@ -103,3 +169,83 @@
     </div>
 </div>
 <!-- Container-fluid Ends-->
+<ng-template #uploadErrorModal let-c="close" let-d="dismiss">
+  <div class="modal-header bg-warning">
+    <h4 class="modal-title">Upload Error</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>{{uploadErrorMsg | uppercase}}</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-warning" (click)="c('Close click')">OK</button>
+  </div>
+</ng-template>
+
+<ng-template #saveOrDiscard let-c="close" let-d="dismiss">
+  <div class="modal-header bg-warning">
+    <h4 class="modal-title">Leave Page Without Saving?</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Are you sure you want to leave without saving?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-warning" (click)="c(true)">Leave without saving</button>
+    <button type="button" class="btn btn-warning" (click)="c(false)">Stay on page</button>
+  </div>
+</ng-template>
+
+<ng-template #addVariantModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Add Variant</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form name="newVariantForm" [formGroup]="variant">
+      <div class="container">
+        <div class="product-property price">
+          <div class="row">
+            <h5 class="product-property-title col">Price</h5>
+          </div>
+          <div class="form-group row">
+            <input class="form-control col" placeholder="Set Variant Price" id="variantPriceInput"
+              type="number" [formControl]="variant.controls['price']" required="">
+          </div>
+        </div>
+        <div class="product-property sizes">
+          <div class="row">
+            <h5 class="product-property-title col">Sizes</h5>
+          </div>
+          <div class="form-group row">
+            <input (keydown.enter)="c(variant.value)" class="form-control col" type="text" [formControl]="variant.controls['size']" placeholder="Set Variant Size (S,M,L,XL,XXL,XXXL)" name="variantSize" id="variantSizeInput">
+          </div>
+        </div>
+        <div class="product-property color">
+          <div class="row">
+            <h5 class="product-property-title col">Color</h5>
+          </div>
+          <div class="form-group row">
+            <app-color-picker [modalClose]="c" [model]="variant.controls['color'].value" [fGroup]="variant"
+              [fControl]="variant.controls['color']"></app-color-picker>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="c(variant.value)">Add</button>
+    <button class="btn btn-secondary"(click)="d('Add Variant Canceled')">Cancel</button>
+  </div>
+</ng-template>
+
+<ng-template #warningToast>
+  Variant Deleted!
+</ng-template>
+

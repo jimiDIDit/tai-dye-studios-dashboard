@@ -1,6 +1,6 @@
 export declare type MessageType = 'new' | 'urgent' | 'private' | 'public' | 'archived' | 'read' | 'unread' | string;
 
-export declare type GroupMember = { id: string, displayName: string, photoUrl: string };
+export declare type GroupMember = { id: string, displayName: string, photoUrl: string, status: 'online'|'offline' };
 export interface Message {
   [key: string]: any;
   id?: string;
