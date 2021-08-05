@@ -38,4 +38,14 @@ export class MediaService {
       return pathOrRef.delete();
     }
   }
+
+  public sortMedia(arr: any[], sortBy: string = 'id', asc = true) {
+    return arr.sort((a: any, b: any) => {
+      if (asc) {
+        return a[sortBy] - b[sortBy];
+      } else {
+        return b[sortBy] - a[sortBy]
+      }
+    })
+  }
 }

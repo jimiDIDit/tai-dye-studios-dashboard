@@ -48,8 +48,8 @@ export class NavService {
 			title: 'Products', icon: 'box', type: 'sub', active: false, children: [
 				{
 					title: 'Physical', type: 'sub', children: [
-						{ path: '/products/physical/category', title: 'Category', type: 'link' },
-						{ path: '/products/physical/sub-category', title: 'Sub Category', type: 'link' },
+						// { path: '/products/physical/category', title: 'Category', type: 'link' },
+						// { path: '/products/physical/sub-category', title: 'Sub Category', type: 'link' },
 						{ path: '/products/physical/product-list', title: 'Product List', type: 'link' },
 						{ path: '/products/physical/add-product', title: 'Add Product', type: 'link' },
 					]

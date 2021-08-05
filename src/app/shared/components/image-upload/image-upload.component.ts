@@ -3,6 +3,7 @@ import { Form, FormBuilder, FormControl, FormGroup, NgForm } from '@angular/form
 import { Image, CarouselConfig, DotsConfig, PreviewConfig } from '@ks89/angular-modal-gallery';
 import { BehaviorSubject, of } from 'rxjs';
 import { MediaService } from 'src/app/core/services/media/media.service';
+import { environment } from 'src/environments/environment';
 import { ModalService } from '../../service/modal.service';
 
 export interface UploadConfig {
@@ -13,10 +14,17 @@ export interface UploadConfig {
   appendUploadToExisting?: boolean;
 }
 
-const UPLOAD_CONFIG_DEFAULTS: UploadConfig = {
+const DEV_UPLOAD_CONFIG_DEFAULTS: UploadConfig = {
   parentFolder: 'test-products',
   folder: 'tshirt',
   path: 'test-products/tshirt/',
+  appendUploadToExisting: false,
+}
+
+const PROD_UPLOAD_CONFIG_DEFAULTS: UploadConfig = {
+  parentFolder: 'products',
+  folder: 'tshirt',
+  path: 'products/tshirt/',
   appendUploadToExisting: false,
 }
 
@@ -29,7 +37,7 @@ export class ImageUploadComponent implements OnInit, OnDestroy{
   @ViewChild('uploadErrorModal', { static: true }) UploadErrorModal: TemplateRef<any>;
   @Output() mediaSaved = new EventEmitter<any>();
   @Input() images: any = [];
-  @Input() config: UploadConfig = UPLOAD_CONFIG_DEFAULTS;
+  @Input() config: UploadConfig = null;
   @Input() form: FormGroup = null;
   @Input() size = 'lg';
   @Input() mode: 'add'|'edit' = 'add';
@@ -69,23 +77,10 @@ export class ImageUploadComponent implements OnInit, OnDestroy{
       reader.readAsDataURL(file);
       reader.onload = (_event) => {
         setTimeout(() => {
-          this.staged.push({ preview: reader.result.toString(), file, config })
-          console.log(input)
+          this.staged.push({ preview: reader.result.toString(), file, config });
         }, 0)
       }
-      this.staged = this.staged.sort((a, b) => {
-        return b.file.name - a.file.name;
-      });
     })
-    // if (files.length > 1) {
-    // } else {
-    //   const file = files[0];
-    //   this.checkForErrors(file);
-    //   // Image upload
-    //   const reader = new FileReader();
-    //   reader.readAsDataURL(file);
-    //   this.stageAfterLoading(reader, file, config)
-    // }
   }
 
   public async upload(stagedImages: any[]) {
@@ -135,13 +130,7 @@ export class ImageUploadComponent implements OnInit, OnDestroy{
     this.staged = [];
   }
 
-  discardItem(item, idx) {
-    if (this.uploadsSaved) {
-      if (item.hasOwnProperty('fileRef')) {
-        this.mediaService.deleteProductImage(item.fileRef)
-      }
-      this.mediaService.deleteProductImage(`${item.config.parentFolder}/${item.config.folder}/${item.file.name}`)
-    }
+  public discardItem(item, idx) {
     this.staged.splice(idx, 1);
   }
 
@@ -181,7 +170,11 @@ export class ImageUploadComponent implements OnInit, OnDestroy{
       }, dismissed => console.log('Dismissed Modal', dismissed))
   }
   ngOnInit(): void {
-    console.log('Form', this.form)
+    if (environment.production) {
+      this.config = { ...PROD_UPLOAD_CONFIG_DEFAULTS, ...this.config};
+    } else {
+      this.config = { ...DEV_UPLOAD_CONFIG_DEFAULTS, ...this.config };
+    }
   }
 
   ngOnDestroy() {

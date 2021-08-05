@@ -50,7 +50,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
     product.new = true;
     product.sale = product.collection.includes('on sale');
     product.images = this.addSavedMedia(photoUrls);
-
+    this.media.sortMedia(product.images, 'image_id');
     console.log('Adding Product', product)
       this.productsService.addProduct(product);
       setTimeout(() => {
@@ -73,15 +73,13 @@ export class AddProductComponent implements OnInit, OnDestroy {
         id,
         alt: img.alt,
         src: img.url,
-        image_id: +Number(`${id}${idx}`),
-        variant_id: [idx]
+        image_id: idx > 10 ? +Number(`${id}${idx}`):+Number(`${id}0${idx}`),
+        variant_id: [idx > 10 ? +Number(`${id}${idx}`) : +Number(`${id}0${idx}`)]
       };
       return image
       // this.photoUrls.push(image);
       // console.log('Added Saved Media Item', img)
-    }).sort((a: any, b: any) => {
-      return b - a;
-     })
+    })
     // this.selectedImage = this.photoUrls[0]
   }
 

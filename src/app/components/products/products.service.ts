@@ -17,25 +17,21 @@ export class ProductsService {
 
   constructor(private dataService: DataService, private http: HttpClient) { }
   private get products() {
-    /* TODO: Change to production when live */
-    this.Products = this.dataService.testProducts
+
+    if (environment.production) {
+      this.Products = this.dataService.products
       .snapshotChanges()
       .pipe(map(changes => {
         return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
       }))
-    // if (environment.production) {
-    //   this.Products = this.dataService.products
-    //     .snapshotChanges()
-    //     .pipe(map(changes => {
-    //       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
-    //     }))
-    // } else if (!environment.production) {
-    //   this.Products = this.dataService.testProducts
-    //     .snapshotChanges()
-    //     .pipe(map(changes => {
-    //       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
-    //     }))
-    // }
+    } else {
+      /* For Development Only */
+      this.Products = this.dataService.testProducts
+        .snapshotChanges()
+        .pipe(map(changes => {
+          return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
+        }))
+    }
     this.Products.subscribe(next => { localStorage['products'] = JSON.stringify(next) });
     return this.Products = this.Products.pipe(startWith(JSON.parse(localStorage['products'] || '[]')));
 
